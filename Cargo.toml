@@ -1,0 +1,31 @@
+[package]
+name = "rust"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = {version = "0.8.4", features = [ "macros"]}
+axum-extra = { version = "0.12.1", features = ["multipart"]}
+blake3 = "1.8.2"
+byteorder = "1.5.0"
+bytes = "1.10.1"
+chrono = "0.4.42"
+hex = "0.4.3"
+image = "0.25.8"
+qoi = "0.4.1"
+rapid-qoi = "0.6.1"
+rayon = "1.11.0"
+serde = { version = "1.0.228", features = ["derive"]}
+serde_json = "1.0.145"
+tokio = { version = "1", features = ["full"] }
+uuid = { version = "1.17", features = ["v4"] }
+
+[profile.release]
+opt-level = 3           # Otimização máxima
+lto = "fat"             # Link-time optimization (muito mais rápido)
+codegen-units = 1       # Melhor otimização (compile mais lento, runtime mais rápido)
+panic = "abort"         # Binário menor e mais rápido
+strip = true            # Remove símbolos de debug
+
+[profile.bench]
+inherits = "release"
