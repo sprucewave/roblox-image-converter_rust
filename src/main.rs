@@ -1,13 +1,13 @@
 mod handlers;
 mod models;
 mod routes;
+mod screenshare;
 
-use crate::models::file::StoredFile;
+use crate::{models::file::StoredFile };
 use std::{
     collections::HashMap,
-    sync::{Arc, Mutex},
+    sync::{Arc, Mutex}
 };
-
 use axum::{Router, routing::get};
 
 pub type Store = Arc<Mutex<HashMap<String, StoredFile>>>;
@@ -20,6 +20,7 @@ async fn main() {
     let app = Router::new()
         .nest("/files", routes::file_routes())
         .with_state(store.clone())
+        .nest("/screenshare", screenshare::screenshare_routes::routes())
         .route("/", get(root));
 
     let address = "0.0.0.0:5000";
